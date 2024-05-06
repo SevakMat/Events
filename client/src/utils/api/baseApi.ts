@@ -1,5 +1,4 @@
 import { BASE_URL } from "shared/helpers/constants";
-import { getCookie } from "shared/helpers/helpers";
 
 class BaseApi {
   private baseApi: string = "";

@@ -47,7 +47,6 @@ const Event = ({ event, userId }: IProps) => {
               R
             </Avatar>
           }
-          title={event.name}
         />
         <Actions userId={userId} event={event} />
       </Box>
@@ -58,20 +57,17 @@ const Event = ({ event, userId }: IProps) => {
         alt="Paella dish"
       />
       <CardContent>
+        <Typography variant="h5" color="text.secondary">
+          {event.name}
+        </Typography>
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{
-            width: "100%",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
+          sx={{ overflowWrap: "break-word" }}
         >
           {event.description}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing></CardActions>
     </Card>
   );
 };

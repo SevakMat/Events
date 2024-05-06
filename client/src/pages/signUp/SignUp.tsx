@@ -1,34 +1,38 @@
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Link, useNavigate } from "react-router-dom";
-import { SignUpService } from "store/auth/service";
+import { signUpFx } from "store/auth/effects";
+import useToast from "hook/useToast";
 
 const SignUp = () => {
+  const toast = useToast();
   const navigate = useNavigate();
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid, errors },
+  } = useForm({ mode: "onChange" });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    await SignUpService({
-      email: data.get("email"),
-      password: data.get("password"),
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      phone: data.get("phone"),
-      age: data.get("age"),
-      gender: data.get("gender"),
-    });
-    // navigate("/signin");
+  const onSubmit = async (data: any) => {
+    try {
+      await signUpFx(data);
+      toast.success("Sign up successed");
+      navigate("/signin");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
     <Container component="main" maxWidth="xs">
+      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
@@ -40,78 +44,133 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
+              <Controller
                 name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
+                control={control}
+                defaultValue=""
+                rules={{ required: "First Name is required" }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    autoComplete="given-name"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    autoFocus
+                    error={!!errors.firstName}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
+              <Controller
                 name="lastName"
-                autoComplete="family-name"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Last Name is required" }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    autoComplete="family-name"
+                    error={!!errors.lastName}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
+              <Controller
                 name="email"
-                autoComplete="email"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Email is required" }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    type="email"
+                    autoComplete="email"
+                    error={!!errors.email}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <Controller
                 name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Password is required" }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    id="password"
+                    label="Password"
+                    type="password"
+                    autoComplete="new-password"
+                    error={!!errors.password}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
+              <Controller
                 name="phone"
-                label="Phone"
-                type="phone"
-                id="phone"
-                autoComplete="phone"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    id="phone"
+                    label="Phone"
+                    autoComplete="phone"
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
+              <Controller
                 name="age"
-                label="Age"
-                type="age"
-                id="age"
-                autoComplete="age"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    id="age"
+                    label="Age"
+                    autoComplete="age"
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
+              <Controller
                 name="gender"
-                label="Gender"
-                type="gender"
-                id="gender"
-                autoComplete="gender"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    id="gender"
+                    label="Gender"
+                    autoComplete="gender"
+                  />
+                )}
               />
             </Grid>
           </Grid>
@@ -120,6 +179,7 @@ const SignUp = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={!isValid}
           >
             Sign Up
           </Button>
@@ -133,4 +193,5 @@ const SignUp = () => {
     </Container>
   );
 };
+
 export default SignUp;

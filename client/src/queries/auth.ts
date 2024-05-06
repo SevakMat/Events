@@ -5,7 +5,7 @@ export const SignUpGQL = `
         $firstName: String
         $lastName: String
         $phone: String
-        $age: Int
+        $age: String
         $gender: String
     ) {
         signUp(SignUpFormInput: {

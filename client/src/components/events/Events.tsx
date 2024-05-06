@@ -1,4 +1,4 @@
-import { Box, Button, Card, TextField } from "@mui/material";
+import { Box, Button, Card, TextField, Typography } from "@mui/material";
 import { useUnit } from "effector-react";
 import { $eventsState } from "store/events";
 import { $userState } from "store/auth";
@@ -44,13 +44,21 @@ const Events = () => {
       <Box
         sx={{
           display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
           flexWrap: "wrap",
           gap: 2,
         }}
       >
-        {events?.map((event, idx) => (
-          <Event event={event} key={idx} userId={user?.id} />
-        ))}
+        {events.length ? (
+          events?.map((event, idx) => (
+            <Event event={event} key={idx} userId={user?.id} />
+          ))
+        ) : (
+          <Box>
+            <Typography variant="h4">No such result</Typography>
+          </Box>
+        )}
       </Box>
 
       {open && <CreateEvent callback={cancelCreate} userId={user?.id} />}

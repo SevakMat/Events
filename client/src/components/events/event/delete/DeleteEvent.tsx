@@ -15,8 +15,9 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
+  borderRadius: 5,
+
   p: 4,
 };
 
@@ -36,15 +37,12 @@ const DeleteEvent = ({ callback, eventId, userId }: IProps) => {
   };
 
   return (
-    <Modal
-      open
-      onClose={callback}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+    <Modal open onClose={callback}>
       <Box sx={style}>
         <Typography>Are you sure you want to delete this event?</Typography>
-        <Button onClick={handleDelete}>Delete</Button>
+        <Button onClick={handleDelete} color="warning">
+          Delete
+        </Button>
       </Box>
     </Modal>
   );

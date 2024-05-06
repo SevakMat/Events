@@ -1,5 +1,5 @@
 import { ObjectType } from "shared/helpers/types";
-import { CheckOutLoginService, SignInService } from "./service";
+import { CheckOutLoginService, SignInService, SignUpService } from "./service";
 import { createEffect } from "effector";
 
 export const signInFx = createEffect(async (body: ObjectType) => {
@@ -10,7 +10,20 @@ export const signInFx = createEffect(async (body: ObjectType) => {
       localStorage.setItem("token", token);
       return response.data.login;
     }
-    return null; // Return null to indicate login failure
+    throw new Error(response?.errors[0].message);
+  } catch (error: any) {
+    throw new Error(error?.message);
+  }
+});
+
+export const signUpFx = createEffect(async (body: ObjectType) => {
+  try {
+    const response = await SignUpService(body);
+
+    if (response?.data?.signUp) {
+      return response.data.signUp;
+    }
+    throw new Error(response?.errors[0].message);
   } catch (error: any) {
     throw new Error(error?.message);
   }

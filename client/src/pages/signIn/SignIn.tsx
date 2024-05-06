@@ -7,17 +7,26 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Link, useNavigate } from "react-router-dom";
 import { signInFx } from "store/auth/effects";
+import useToast from "hook/useToast";
+import { Controller, useForm } from "react-hook-form";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    await signInFx({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    navigate("/");
+  const toast = useToast();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onChange" });
+
+  const onSubmit = async (data: any) => {
+    try {
+      await signInFx(data);
+      toast.success("Sign In successed");
+      navigate("/");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -34,29 +43,46 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
+              <Controller
                 name="email"
-                autoComplete="email"
-                value="sevakmatevosyan1998@gmail.com"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Email is required" }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    type="email"
+                    autoComplete="email"
+                    error={!!errors.email}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <Controller
                 name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                value="sevakmatevosyan1998"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Password is required" }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    required
+                    fullWidth
+                    id="password"
+                    label="Password"
+                    type="password"
+                    autoComplete="new-password"
+                    error={!!errors.password}
+                  />
+                )}
               />
             </Grid>
           </Grid>

@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
+
+// Importing the main application and database setup
 import app from "./src/app";
 import db from "./src/db";
 

@@ -17,8 +17,8 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
+  borderRadius: 5,
   p: 4,
 };
 
@@ -48,12 +48,7 @@ const EditEvent = ({ callback, event }: IProps) => {
   };
 
   return (
-    <Modal
-      open
-      onClose={callback}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+    <Modal open onClose={callback}>
       <Box sx={style}>
         <Grid item xs={12}>
           <TextField
@@ -73,6 +68,9 @@ const EditEvent = ({ callback, event }: IProps) => {
             label="Description"
             value={eventData.description}
             onChange={hendelChange}
+            multiline
+            rows={4}
+            maxRows={Infinity}
           />
         </Grid>
         <Button onClick={handleUpdate}>Update</Button>

@@ -1,9 +1,9 @@
 import Modal from "@mui/material/Modal";
-import { ICallBackType, ObjectType } from "shared/helpers/types";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { ICallBackType } from "shared/helpers/types";
+import { Box, Button, Typography } from "@mui/material";
 import Comment from "./Comment";
 import { CommentType } from "store/events/types";
-import { useState } from "react";
+import ClearIcon from "@mui/icons-material/Clear";
 import NewComment from "./NewComment";
 
 const style = {
@@ -17,7 +17,7 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  height: "100vw",
+  height: "100%",
 };
 
 interface IProps {
@@ -29,21 +29,23 @@ interface IProps {
 
 const CommentsModal = ({ callback, comments, userId, eventId }: IProps) => {
   return (
-    <Modal
-      open
-      onClose={callback}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+    <Modal open onClose={callback}>
       <Box sx={style}>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="h5">Comments</Typography>
+
+          <Button onClick={callback}>
+            <ClearIcon />
+          </Button>
+        </Box>
+
         <Box
-          sx={{ padding: "14px", overflowY: "auto", maxHeight: "30vw" }}
+          sx={{ padding: "14px", overflowY: "auto", maxHeight: "70vh" }}
           className="App"
         >
-          <Typography>Comments</Typography>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {comments?.map((comment) => (
-              <Comment comment={comment} />
+            {comments?.map((comment, index) => (
+              <Comment key={index} comment={comment} />
             ))}
           </Box>
         </Box>

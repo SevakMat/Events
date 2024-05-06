@@ -7,7 +7,7 @@ input SignUpFormInput {
   email: String!
   firstName: String
   lastName: String
-  age: Int
+  age: String
   gender: String
   phone: String
   password: String

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Button } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
-import ClearIcon from "@mui/icons-material/Clear";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditEvent from "../edit/EditEvent";
 import DeleteEvent from "../delete/DeleteEvent";
 import CommentsModal from "components/comments/CommentsModal";
@@ -33,7 +33,7 @@ const Actions = ({ event, userId }: IProps) => {
               <CreateIcon />
             </Button>
             <Button onClick={openDeleteModalHandler}>
-              <ClearIcon />
+              <DeleteOutlineIcon />
             </Button>
           </Box>
         )}

@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
+import { ICallBackType } from "shared/helpers/types";
 import { createCommentFx } from "store/comment/effect";
-import { CreateCommentService } from "store/comment/service";
 
 interface IProps {
   userId?: string;
