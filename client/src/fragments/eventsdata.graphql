@@ -1,0 +1,12 @@
+fragment EventsData {
+  _id
+    name
+    description
+    user_id
+    comments {
+      _id
+      message
+      createdAt
+      user_id
+    }
+}

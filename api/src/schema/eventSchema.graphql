@@ -1,0 +1,48 @@
+type Comment {
+  _id: ID!
+  message: String!
+  user_id: String!
+  createdAt: String!
+}
+
+type Event {
+  _id: String
+  name: String!
+  description: String!
+  user_id: String!
+  comments: [Comment]!
+}
+
+input CreateEventFormInput {
+  name: String!
+  description: String!
+  userId: String!
+}
+
+input UpdateEventFormInput {
+  name: String!
+  description: String!
+  id: String!
+}
+
+input EventsInput {
+  searchTerm: String
+}
+input DeleteEventInput {
+  eventId: String!
+  userId: String!
+}
+
+type DeleteEventResult {
+  success: Boolean!
+}
+
+type Query {
+  getEvents(eventsInput: EventsInput): [Event]!
+}
+
+type Mutation {
+  createEvent(createEventFormInput: CreateEventFormInput!): Event!
+  updateEvent(updateEventFormInput: UpdateEventFormInput!): Event!
+  deleteEvent(deleteEventInput: DeleteEventInput): DeleteEventResult!
+}

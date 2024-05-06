@@ -1,0 +1,15 @@
+type Comment {
+  message: String
+  event_id: String
+  user_id: String
+}
+
+input CreateCommentFormInput {
+  message: String!
+  eventId: String!
+  userId: String!
+}
+
+type Mutation {
+  createComment(createCommentFormInput: CreateCommentFormInput!): Comment!
+}

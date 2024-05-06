@@ -1,0 +1,36 @@
+input LoginFormInput {
+  email: String!
+  password: String!
+}
+
+input SignUpFormInput {
+  email: String!
+  firstName: String
+  lastName: String
+  age: Int
+  gender: String
+  phone: String
+  password: String
+}
+
+input CheckOutLoginFormInput {
+  token: String!
+}
+
+type User {
+  email: String
+  id: String
+  token: String
+}
+
+type SignUpResult {
+  success: Boolean!
+}
+
+type Query {
+  checkOutLogin(CheckOutLoginFormInput: CheckOutLoginFormInput!): User
+}
+type Mutation {
+  login(LoginFormInput: LoginFormInput!): User
+  signUp(SignUpFormInput: SignUpFormInput!): SignUpResult
+}
